@@ -1,2 +1,4 @@
 pyenv/
 src/creds/
+*pycache*
+src/main.py
