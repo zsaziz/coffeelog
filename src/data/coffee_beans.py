@@ -11,6 +11,7 @@ class CoffeeBeans(CoffeeBase):
     """
 
     COFFEE_BEANS_NAME = "CoffeeBeans"
+
     PRODUCER = "producer"
     COUNTRY_OF_ORIGIN = "country_of_origin"
     NAME = "name"
@@ -18,18 +19,25 @@ class CoffeeBeans(CoffeeBase):
     FLAVOR_NOTES = "flavor_notes"
     ROAST_DATE = "roast_date"
 
+    ROAST_LEVEL_MIN = 1
+    ROAST_LEVEL_MAX = 10
+
     def __init__(self,
         producer: str,
         country_of_origin: str,
         name: Optional[str] = None,
         roast_level: Optional[int] = None,
         flavor_notes: Optional[List[str]] = None,
-        roast_date: Optional[datetime] = None
+        roast_date: Optional[datetime.date] = None
     ) -> None:
+
+        # Validation checks
         if not producer:
             raise MissingArgumentError(self.PRODUCER)
         if not country_of_origin:
             raise MissingArgumentError(self.COUNTRY_OF_ORIGIN)
+        if roast_level and roast_level not in range(self.ROAST_LEVEL_MIN, self.ROAST_LEVEL_MAX + 1):
+            raise ValueError(f'{self.ROAST_LEVEL} value {roast_level} is out of range. Must be within {self.ROAST_LEVEL_MIN}-{self.ROAST_LEVEL_MAX}')
         
         self.producer = producer
         self.country_of_origin = country_of_origin

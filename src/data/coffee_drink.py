@@ -2,6 +2,7 @@
 from data.coffee_base import CoffeeBase
 from data.coffee_beans import CoffeeBeans
 from exceptions.missing_argument_error import MissingArgumentError
+from utils.common_utils import get_current_local_datetime
 
 # python lib
 from datetime import datetime, timezone
@@ -13,13 +14,14 @@ class CoffeeDrink(CoffeeBase):
     """
 
     COFFEE_DRINK_NAME = "CoffeeDrink"
+
     DRINK = "drink"
     QUANTITY_IN_FLUID_OZ = "quantity_in_fluid_oz"
     MILK_OPTIONS = "milk_options"
     ADDITIVES = "additives"
     COFFEE_BEANS = "coffee_beans"
     CAFE = "cafe"
-    ENTRY_TIME = "entry_date"
+    ENTRY_DATETIME = "entry_datetime"
 
     def __init__(self,
         drink: str,
@@ -42,7 +44,7 @@ class CoffeeDrink(CoffeeBase):
         self.cafe = cafe
 
         # Set current date and time in local TZ as datetime object
-        self.entry_time = datetime.now(timezone.utc).astimezone().replace(second=0, microsecond=0)
+        self.entry_datetime = get_current_local_datetime()
 
     @staticmethod
     def from_dict(source):
