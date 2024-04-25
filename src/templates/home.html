@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content%}
+	<h1>Coffee Drinks</h1>
+
+	{% for coffee_drink in coffee_drinks %}
+		<h2>{{ coffee_drink.brew_id }}</h2>
+
+		<table class="table table-bordered mt-3">
+
+			<!-- Table header -->
+			<thead>
+				<tr>
+					<th scope="col" style="width: 25%">Property</th>
+        	<th scope="col" style="width: 75%">Value</th>
+				</tr>
+			</thead>
+
+			<!-- Table body -->
+			<tbody>
+				{% for k, v in coffee_drink.items() %}
+					{% if k == 'coffee_beans' and v != None %}
+						<tr>
+							<td>{{ k }}</td>
+							<td>
+								<ul>
+									{% for key, value in coffee_drink.coffee_beans.items() %}
+										<li>{{ key }}: {{ value }}</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+					{% elif k != 'brew_id' and v != None %}
+						<tr>
+							<td>{{ k }}</td>
+              <td>{{ v }}</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+			
+		</table>
+	
+	{% endfor %}
+
+{% endblock content%}

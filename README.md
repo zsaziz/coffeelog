@@ -17,7 +17,7 @@ CoffeeLog is a journaling application to track details about the coffee you drin
 | Name | Type | Required | Examples | Notes |
 | --- | --- | --- | --- | --- |
 | Drink | String | Yes | Drip, Latte, Cold Brew |  |
-| QuantityInFluidOz | Number (int) | Yes | 12, 16, 20 |  |
+| QuantityInFlOz | Number (int) | Yes | 12, 16, 20 |  |
 | MilkOptions | String | No | Whole milk, half n half, oat milk |  |
 | Additives | List<String> | No | [Vanilla syrup, cinnamon] |  |
 | CoffeeBeans | Map | No | See CoffeeBeans table |  |

@@ -1,5 +1,6 @@
 # 3P lib
 from google.cloud import firestore
+from google.cloud.firestore_v1.base_query import FieldFilter
 
 # local lib
 from data.coffee_drink import CoffeeDrink
@@ -9,14 +10,16 @@ from utils.logging_utils import get_logger
 
 # python lib
 import time
+from typing import List
+from deprecated import deprecated
 
 log = get_logger(__name__)
 
 DEFAULT_DATABASE = 'coffeelog-metadata'
 COFFEE_DRINK_COLLECTION = CoffeeDrink.COFFEE_DRINK_NAME
-COFFEE_BEANS_COLLECTION = CoffeeBeans.COFFEE_BEANS_NAME
 BATCH_SIZE = 10
 
+@deprecated(reason='Firestore is not needed, use SQL datastore.')
 class FirestoreClient:
     def __init__(self):
         self.creds_path = 'creds/google/coffeelog_service_account_creds.json'
@@ -28,6 +31,19 @@ class FirestoreClient:
         doc_ref = self.db.collection(COFFEE_DRINK_COLLECTION).document()
         doc_ref.set(coffee_drink.to_dict())
         return doc_ref.id
+
+    def get_coffee_drink_with_id(self, coffee_drink_id: str):
+        return CoffeeDrink.from_dict(
+            self.db.collection(COFFEE_DRINK_COLLECTION).document(coffee_drink_id).get()._data)
+
+    # Return CoffeeDrink
+    def get_coffee_drink_query(self, *filters: FieldFilter) -> List[CoffeeDrink]:
+        query = self.db.collection(COFFEE_DRINK_COLLECTION)
+        for filt in filters:
+            query = query.where(filter=filt)
+        
+        return [CoffeeDrink.from_dict(source._data) for source in query.stream()]
+
 
     def delete_coffee_drink(self, doc_id: str):
         self.db.collection(COFFEE_DRINK_COLLECTION).document(doc_id).delete()
