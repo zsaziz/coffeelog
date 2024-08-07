@@ -1,33 +1,22 @@
+# USED FOR TESTING DURING DEVELOPMENT
+# DO NOT EXPOSE IN PROD
+
 # local lib
+import sys
 from data.coffee_beans import CoffeeBeans
 from data.update_coffee_drink import UpdateCoffeeDrink
 from data.coffee_drink import CoffeeDrink
 from clients.google_cloud.datastore_client import DatastoreClient
 
-from google.api_core.datetime_helpers import DatetimeWithNanoseconds
-from google.cloud.firestore_v1.base_query import FieldFilter
-from datetime import datetime
-import pytz
-
-from google.cloud.datastore.query import PropertyFilter
+# Flask app
+from app import main
 
 user = 'zoon'
-sarah_user = 'sarahB'
-
-def generate_coffee_drinks(datastore_client: DatastoreClient, range_val):
-    for i in range_val:
-        datastore_client.create_coffee_drink(CoffeeDrink(f'{user}{i}', f'filter{i}', i+10, coffee_beans=CoffeeBeans(f'beans{i}', f'country{i}', roast_level=i)))
-        datastore_client.create_coffee_drink(CoffeeDrink(f'{user}{i}', f'espresso{i}', i+10))
-
-    # if beans:
-    #     for i in range_val:
-    #         datastore_client.create_coffee_drink(CoffeeDrink(f'zoon{i}', i+10, coffee_beans=CoffeeBeans(f'beans{i}', f'country{i}', roast_level=5+i)))
-    # else:
-    #     for i in range_val:
-    #         datastore_client.create_coffee_drink(CoffeeDrink(f'zoon{i}', i+10))
-
 
 if __name__ == "__main__":
+    main()
+    sys.exit()
+
     datastore = DatastoreClient()
 
     # coffee = CoffeeDrink(user, 'drip', 12)

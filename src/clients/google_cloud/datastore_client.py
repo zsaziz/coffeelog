@@ -11,6 +11,7 @@ from utils.common_utils import yes_or_no
 from utils.logging_utils import get_logger
 
 # python lib
+from deprecated import deprecated
 import time
 from typing import List
 
@@ -19,6 +20,7 @@ log = get_logger(__name__)
 DEFAULT_DATABASE = 'coffeelog-data'
 BATCH_SIZE = 20
 
+@deprecated(reason='Datastore is not needed, use SQL datastore.')
 class DatastoreClient:
     def __init__(self):
         self.creds_path = 'creds/google/coffeelog_service_account_creds.json'

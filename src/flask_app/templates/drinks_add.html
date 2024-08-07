@@ -1,0 +1,97 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<main class="form-drinkadd">
+  <form role="form" method="post" action="">
+    {{ form.csrf_token }}
+    <h1 class="h3 mb-3 fw-normal text-center">What did you drink today?</h1>
+    <p id="description"><em>"The sacred bean shall grant eternal energy to the disciplined, while the unworthy shall be lost in slumber."</em></p>
+
+    <div class="form-group">
+      <label for="name" id="name-label">Name</label>
+      {{ form.drink_name(placeholder="drink name", class="form-control mb-2") }}
+        {% if form.drink_name.errors %}
+          {% for error in form.drink_name.errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <label for="name" id="name-label">Quantity</label>
+      {{ form.quantity_in_fl_oz(placeholder="(fl oz)", class="form-control mb-2") }}
+        {% if form.quantity_in_fl_oz.errors %}
+          {% for error in form.quantity_in_fl_oz.errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="name" id="name-label">Milk</label>
+      {{ form.milk_options(placeholder="e.g. whole, almond, oat", class="form-control mb-2") }}
+        {% if form.milk_options.errors %}
+          {% for error in form.milk_options.errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% endif %}
+    </div>
+    
+    <div class="form-group">
+      <label for="name" id="name-label">
+        Additives
+        <p>e.g. vanilla syrup, rose, cardamom</p>
+      </label>
+      {% for field in form.additives %}
+      <ul>
+        {{ field(class="form-control mb-2") }}
+      </ul>
+      {% endfor %}
+    </div>
+    
+    <div class="form-group">
+      <label for="name" id="name-label">Time</label>
+      <script>
+        function toLocalISOString(date) {
+          const localDate = new Date(date - date.getTimezoneOffset() * 60000); //offset in milliseconds. Credit https://stackoverflow.com/questions/10830357/javascript-toisostring-ignores-timezone-offset
+        
+          // Optionally remove second/millisecond if needed
+          localDate.setSeconds(null);
+          localDate.setMilliseconds(null);
+          return localDate.toISOString().slice(0, -1);
+        }
+        
+        window.addEventListener("load", () => {
+          document.getElementById("drink_time").value = toLocalISOString(new Date());
+        });
+      </script>
+      {{ form.drink_time() }}
+    </div>
+    
+    <div class="form-group">
+      <label for="name" id="name-label">Cafe</label>
+      {{ form.cafe(placeholder="cafe", class="form-control mb-2") }}
+        {% if form.cafe.errors %}
+          {% for error in form.cafe.errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% endif %}
+    </div>
+
+
+    
+    <button type="submit">Add</button>
+    <p class="text-center mt-3"><a href="{{ url_for('coffee_drinks.coffee_drinks_home') }}">Cancel</a></p>
+  </form>
+</main>
+
+{% endblock %}

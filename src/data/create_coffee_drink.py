@@ -1,15 +1,17 @@
 # local lib
 from data.coffee_base import CoffeeBase
 from data.coffee_beans import CoffeeBeans
+from exceptions.missing_argument_error import MissingArgumentError
 
 # python lib
 from typing import List, Optional
+from datetime import datetime
 
-class UpdateCoffeeDrink(CoffeeBase):
-    """Local class object for updating CoffeeDrink data
+class CreateCoffeeDrink(CoffeeBase):
+    """Local class object for CreateCoffeeDrink data
     """
 
-    UPDATE_COFFEE_DRINK_NAME = 'UpdateCoffeeDrink'
+    CREATE_COFFEE_DRINK_NAME = 'CreateCoffeeDrink'
 
     DRINK_NAME = 'drink_name'
     QUANTITY_IN_FL_OZ = 'quantity_in_fl_oz'
@@ -17,16 +19,22 @@ class UpdateCoffeeDrink(CoffeeBase):
     ADDITIVES = 'additives'
     COFFEE_BEANS = 'coffee_beans'
     CAFE = 'cafe'
+    DRINK_TIME = 'drink_time'
 
-    def __init__(self, *,
-        drink_name: Optional[str] = None,
-        quantity_in_fl_oz: Optional[int] = None,
+    def __init__(self,
+        drink_name: str,
+        quantity_in_fl_oz: int,
         milk_options: Optional[str] = None,
         additives: Optional[List[str]] = None,
         coffee_beans: Optional[CoffeeBeans] = None,
-        cafe: Optional[str] = None
+        cafe: Optional[str] = None,
+        drink_time: Optional[datetime] = None,
     ) -> None:
-
+        if not drink_name:
+            raise MissingArgumentError(self.DRINK_NAME)
+        if not quantity_in_fl_oz:
+            raise MissingArgumentError(self.QUANTITY_IN_FL_OZ)
+        
         # Properties
         # ---
         self.drink_name = drink_name
@@ -35,16 +43,18 @@ class UpdateCoffeeDrink(CoffeeBase):
         self.additives = additives
         self.coffee_beans = coffee_beans
         self.cafe = cafe
+        self.drink_time = drink_time
         # ---
-    
+
     @staticmethod
     def from_dict(source):
-        # Initialize UpdateCoffeeDrink class
-        coffee_drink = UpdateCoffeeDrink()
+        # Initialize CreateCoffeeDrink class
+        # Pop initialization attributes to get and remove
+        coffee_drink = CreateCoffeeDrink(source.pop(CreateCoffeeDrink.DRINK_NAME), source.pop(CreateCoffeeDrink.QUANTITY_IN_FL_OZ))
 
-        # Set attributes in source dictionary to class
+        # Set remaining attributes in source dictionary to class
         for key, val in source.items():
-            if key == UpdateCoffeeDrink.COFFEE_BEANS and val:
+            if key == CreateCoffeeDrink.COFFEE_BEANS and val:
                 setattr(coffee_drink, key, CoffeeBeans.from_dict(val))
             else:
                 setattr(coffee_drink, key, val)

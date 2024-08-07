@@ -25,7 +25,7 @@ class CoffeeBeans(CoffeeBase):
     def __init__(self,
         producer: str,
         country_of_origin: str,
-        name: Optional[str] = None,
+        beans_name: Optional[str] = None,
         roast_level: Optional[int] = None,
         flavor_notes: Optional[List[str]] = None,
         roast_date: Optional[datetime.date] = None
@@ -41,18 +41,19 @@ class CoffeeBeans(CoffeeBase):
         
         self.producer = producer
         self.country_of_origin = country_of_origin
-        self.name = name
+        self.beans_name = beans_name
         self.roast_level = roast_level
         self.flavor_notes = flavor_notes
         self.roast_date = roast_date
 
+    def __repr__(self):
+        return f'{self.__dict__}'
+
     @staticmethod
     def from_dict(source):
         # Initialize CoffeeBeans class
-        coffee_beans = CoffeeBeans(source[CoffeeBeans.PRODUCER], source[CoffeeBeans.COUNTRY_OF_ORIGIN])
-        # Delete used fields from source dictionary
-        del source[CoffeeBeans.PRODUCER]
-        del source[CoffeeBeans.COUNTRY_OF_ORIGIN]
+        # Pop initialization attributes to get and remove 
+        coffee_beans = CoffeeBeans(source.pop(CoffeeBeans.PRODUCER), source.pop(CoffeeBeans.COUNTRY_OF_ORIGIN))
 
         # Set remaining attributes in source dictionary to class
         for key in source:

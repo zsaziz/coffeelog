@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>CoffeeLog Login</title>
+	<link rel="stylesheet"
+		href="static/login.css">
+</head>
+
+<body>
+	<div class="main">
+		<h1>CoffeeLog</h1>
+		<h3>Enter your login credentials</h3>
+		<form action="" method="POST">
+			<label for="email">Email:</label>
+			<input type="text"
+				id="email"
+				name="email"
+				placeholder="Enter your Email"
+				value="{{request.form.email}}" required>
+
+			<label for="password">
+				Password:
+			</label>
+			<input type="password"
+				id="password"
+				name="password"
+				placeholder="Enter your Password"
+				value="{{request.form.password}}" required>
+
+			<div class="wrap">
+				<button type="submit" value="Login">
+					Login
+				</button>
+			</div>
+			{% if form.errors %}
+			{{ form.errors }}
+			{% endif %}
+		</form>
+		<p>Not registered? 
+			<a href="{{ url_for('register') }}"
+			style="text-decoration: none;">
+				Create an account
+			</a>
+		</p>
+	</div>
+</body>
+
+</html>

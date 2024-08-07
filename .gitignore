@@ -1,3 +1,6 @@
 pyenv/
 src/creds/
+src/instance/
+src/migrations/
 *pycache*
+.vscode

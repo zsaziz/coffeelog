@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 
 def get_current_local_datetime():
-    return datetime.now(timezone.utc).astimezone().replace(microsecond=0)
+    return datetime.now(timezone.utc).astimezone()
 
 def yes_or_no(message: str):
     res = input(message + '\nContinue? [y/N]: ')

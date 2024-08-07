@@ -1,0 +1,69 @@
+{% extends "_base.html" %}
+
+{% block content%}
+
+<main class="form-drinkadd">
+  <form role="form" method="post" action="">
+    {{ form.csrf_token }}
+    <h1>
+      Coffee Drinks
+      <a href="{{ url_for('coffee_drinks.add_drink') }}" class="button">Add</a>
+    </h1>
+
+    <div class="form-group">
+      <label for="sort" id="sort-label">Sort</label>
+      {{ form.sort_order() }}
+        {% if form.sort_order.errors %}
+          {% for error in form.sort_order.errors %}
+            <div class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        <button type="submit">Sort</button>
+    </div>
+
+    {% for coffee_drink in coffee_drinks %}
+        <h2>{{ coffee_drink.brew_id }}</h2>
+
+        <table class="table table-bordered mt-3">
+
+            <!-- Table header -->
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 25%">Property</th>
+            <th scope="col" style="width: 75%">Value</th>
+                </tr>
+            </thead>
+
+            <!-- Table body -->
+            <tbody>
+                {% for k, v in coffee_drink.public_dict().items() %}
+                    {% if k == 'coffee_beans' and v != None %}
+                        <tr>
+                            <td>{{ k }}</td>
+                            <td>
+                                <ul>
+                                    {% for key, value in coffee_drink.coffee_beans.__dict__.items() %}
+                                        <li>{{ key }}: {{ value }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% elif v != None %}
+                        <tr>
+                            <td>{{ k }}</td>
+              <td>{{ v }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+            
+        </table>
+    
+    {% endfor %}
+
+  </form>
+</main>
+
+{% endblock content%}
